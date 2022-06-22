@@ -1,0 +1,34 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12 mt-5">
+
+            <label>Name</label>
+            <input type="text" [(ngModel)]="customerName" class="ms-3 mb-3"><br>
+            <p *ngIf="validName" class="text-danger">{{nameError}}</p>
+            <label>Email</label>
+            <input type="email" [(ngModel)]="customerEmail" class="ms-3 mb-3">
+
+            <p *ngIf="validEmail" class="text-danger">{{emailError}}</p><br>
+
+            <ng-content select=".app"></ng-content>
+            <ng-content select=".app1"></ng-content><br>
+            <!-- <p *ngIf="validName" class="text-danger">{{nameError}}</p> -->
+            <!-- <p>{{validAddress}}</p> -->
+
+            Status: <select class=" mb-3" [(ngModel)]="status">
+                <option *ngFor="let cate of statusArr" [value]="cate.name">
+                    {{cate.name}}
+                </option>
+            </select><br>
+
+            <button class="btn btn-primary" [disabled]="customerName === '' || customerEmail === ''"
+                (click)="onSubmit()">Submit</button>
+        </div>
+
+
+
+        <app-customer-display-data [displayArr]="customerArr" (newItemEvent)="addItem($event)">
+            <h1>Customer List</h1>
+        </app-customer-display-data>
+    </div>
+</div>
