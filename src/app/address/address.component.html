@@ -1,4 +1,6 @@
-<app-custmer-input-data>
-    <label class="app">Address</label>
-    <input class="app1 ms-3 mb-3" #add type="text"><br>
-</app-custmer-input-data>
+<!-- ---------Address input---------- -->
+
+<label for="add">Address:</label>
+<textarea type="text" cols="40" rows="5" #added class="mb-3 ms-4" (keyup)="getAddress(added.value)"
+    [value]="nullAddress" [placeholder]="customerAddress">
+    </textarea><br>

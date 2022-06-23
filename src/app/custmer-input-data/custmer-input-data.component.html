@@ -1,34 +1,48 @@
-<div class="container">
+<div class="container-fluid">
     <div class="row">
-        <div class="col-12 mt-5">
 
-            <label>Name</label>
-            <input type="text" [(ngModel)]="customerName" class="ms-3 mb-3"><br>
+        <!-- -------customer form ------ -->
+
+        <div class="mb-5 mt-5">
+            <h3 class="mb-4">Customer Form:</h3>
+
+            <!-- ------------customer Name------------ -->
+            <label for="name">Name:</label>
+            <input id="name" type="text" [(ngModel)]="customerName" class="ms-5 mb-3" placeholder="Enter Name"><br>
             <p *ngIf="validName" class="text-danger">{{nameError}}</p>
-            <label>Email</label>
-            <input type="email" [(ngModel)]="customerEmail" class="ms-3 mb-3">
 
+            <!-- ------------customer Email------------ -->
+            <label for="email">Email:</label>
+            <input id="email" type="text" [(ngModel)]="customerEmail" class="ms-5 mb-3" placeholder="Enter Email">
             <p *ngIf="validEmail" class="text-danger">{{emailError}}</p><br>
 
-            <ng-content select=".app"></ng-content>
-            <ng-content select=".app1"></ng-content><br>
-            <!-- <p *ngIf="validName" class="text-danger">{{nameError}}</p> -->
-            <!-- <p>{{validAddress}}</p> -->
 
-            Status: <select class=" mb-3" [(ngModel)]="status">
+            <!-- ------------customer Address------------ -->
+            <app-address [nullAddress]="customerAddress" (add)="getAddress($event)"></app-address>
+
+
+            <!-- ------------customer Status------------ -->
+            Status: <select class="ms-4 mb-3" [(ngModel)]="status">
                 <option *ngFor="let cate of statusArr" [value]="cate.name">
                     {{cate.name}}
                 </option>
             </select><br>
 
-            <button class="btn btn-primary" [disabled]="customerName === '' || customerEmail === ''"
-                (click)="onSubmit()">Submit</button>
+
+            <!-- ------submit data----- -->
+            <button type="button" class="btn btn-primary"
+                [disabled]="customerName === '' || customerEmail === '' || customerAddress === ''"
+                (click)=" onSubmit()">Submit</button>
+
         </div>
+        <hr>
 
 
-
-        <app-customer-display-data [displayArr]="customerArr" (newItemEvent)="addItem($event)">
-            <h1>Customer List</h1>
+        <!-- ------------ customer display component-------- -->
+        <app-customer-display-data [displayArr]="customerArr" [validEmail]="validEmail"
+            (newItemEvent)="editName($event)">
+            <h3 class="text-primary">Customer List:</h3>
         </app-customer-display-data>
+
     </div>
 </div>

@@ -1,69 +1,79 @@
-<div class="container">
+<div class="container-fluid">
     <div class="row">
         <div class="col-12 mt-5">
+
+            <!-- ---------customer list title-------- -->
             <ng-content></ng-content>
 
-            <button (click)="onActive()" class="btn btn-success mt-5">Active</button>
-            <button (click)="onInactive()" class="btn btn-danger ms-4 mt-5">Inactive</button>
+            <!-- --------------status filter button-- -->
+            <button (click)="onActive()" class="btn btn-success mt-3 mb-3">Active</button>
+            <button (click)="onInactive()" class="btn btn-danger ms-3 mt-3 mb-3">Inactive</button>
 
+
+            <!-- ----------customer display table-------- -->
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Address</th>
+                        <th scope="col" style="cursor: pointer;" (click)="sortName('Name')">Name</th>
+                        <th scope="col" style="cursor: pointer;" (click)="sortName('Email')">Email</th>
+                        <th scope="col" style="cursor: pointer;" (click)="sortAddress('Address')">Address</th>
                         <th scope="col">Status</th>
                     </tr>
                 </thead>
                 <tbody>
 
-                    <p *ngIf="displayArr.length == 0">'No Customer Found'</p>
+
                     <ng-container *ngIf="status">
-                        <ng-container *ngIf="displayArr.Name !== ''">
-                            <tr *ngFor="let data of displayArr">
 
-                                <td>{{data.Name}}</td>
-                                <td>{{data.Email}}</td>
-                                <td>{{data.Address}}</td>
+                        <!-- <ng-container *ngIf="!validEmail"> -->
 
-                                <td><span class="badge" [ngClass]="{
+
+                        <tr *ngFor="let data of displayArr">
+
+                            <td>{{data.Name}}</td>
+                            <td>{{data.Email}}</td>
+                            <td>{{data.Address}}</td>
+
+                            <td><span class="badge" [ngClass]="{
                             'active' : data.Status == 'Active' ,
                             'inactive' : data.Status == 'Inactive' 
                          }">{{data.Status}}</span></td>
-                                <td><button class="btn btn-outline-danger" (click)="onEdit(data)">Edit</button></td>
-                            </tr>
-                        </ng-container>
+                            <td><button class="btn btn-outline-danger" (click)="onEdit(data)">Edit</button></td>
+                        </tr>
                     </ng-container>
+                    <!-- </ng-container> -->
 
                     <!-- -------------filter by status--------- -->
 
-                    <tr *ngFor="let data of displayActiveArr">
+                    <ng-container *ngIf="isActive">
+                        <tr *ngFor="let data of displayActiveArr">
 
-                        <td>{{data.Name}}</td>
-                        <td>{{data.Email}}</td>
-                        <td>{{data.Address}}</td>
+                            <td>{{data.Name}}</td>
+                            <td>{{data.Email}}</td>
+                            <td>{{data.Address}}</td>
 
-                        <td><span class="badge" [ngClass]="{
+                            <td><span class="badge" [ngClass]="{
                             'active' : data.Status == 'Active' ,
                             'inactive' : data.Status == 'Inactive' 
                          }">{{data.Status}}</span></td>
 
-                    </tr>
+                        </tr>
+                    </ng-container>
 
+                    <ng-container *ngIf="isInactive">
+                        <tr *ngFor="let data of displayStatusArr">
 
-                    <tr *ngFor="let data of displayStatusArr">
+                            <td>{{data.Name}}</td>
+                            <td>{{data.Email}}</td>
+                            <td>{{data.Address}}</td>
 
-                        <td>{{data.Name}}</td>
-                        <td>{{data.Email}}</td>
-                        <td>{{data.Address}}</td>
-
-                        <td><span class="badge" [ngClass]="{
+                            <td><span class="badge" [ngClass]="{
                             'active' : data.Status == 'Active' ,
                             'inactive' : data.Status == 'Inactive' 
                          }">{{data.Status}}</span></td>
 
-                    </tr>
-
+                        </tr>
+                    </ng-container>
 
 
 

@@ -1,4 +1,5 @@
-import { AfterContentInit, Component, ContentChild, ElementRef, OnInit } from '@angular/core';
+import { Component, OnInit, } from '@angular/core';
+
 
 
 @Component({
@@ -6,75 +7,81 @@ import { AfterContentInit, Component, ContentChild, ElementRef, OnInit } from '@
   templateUrl: './custmer-input-data.component.html',
   styleUrls: ['./custmer-input-data.component.css']
 })
-export class CustmerInputDataComponent implements OnInit, AfterContentInit {
-  @ContentChild('add')
-  add: ElementRef;
+export class CustmerInputDataComponent implements OnInit {
 
-  customerName = '';
-  Name;
-  customerEmail = '';
-  customerAddress = '';
+  // ------take inputs------------
+  customerName: string = '';
+  customerEmail: string = '';
+  customerAddress: string = '';
+  status: string = 'Active';
+  statusArr: [{ id: number, name: string }, { id: number, name: string }];
 
-  nameError = 'Enter Name';
-  emailError = 'Enter valid Email';
+  // -----display validation error---------
+  nameError: string = 'Enter Name';
+  emailError: string = 'Enter valid Email';
 
 
-  validName = false;
-  validEmail = false;
-  validAddress = false;
+  validName: boolean = false;
+  validEmail: boolean = false;
+  validAddress: boolean = false;
+  valid: string;
 
-  status = 'Active';
-  statusArr = [];
 
+  // -------store customer data---------
   customerArr = [];
+
+
+  // ------------take address value from another component----
+  getAddress(val: string) {
+    this.customerAddress = val;
+  }
+
 
   constructor() { }
 
   ngOnInit(): void {
+
+    // -------status dropdown----------
     this.statusArr = [
       { id: 1, name: "Active" },
       { id: 2, name: "Inactive" }
     ]
   }
 
-
-  ngAfterContentInit(): void {
-    console.log(this.add.nativeElement);
-
-  }
-
-
-
+  // ------------submit customer data---------
   onSubmit() {
 
+    // -----display validation error---------
     if (this.customerName == '') {
       this.validName = true;
     }
-    if (this.customerEmail == "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$") {
+
+    this.valid = "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$";
+    if (this.customerEmail.match(this.valid)) {
+      this.validEmail = false;
+    }
+    else {
       this.validEmail = true;
     }
 
+    // -----------pass customer data to customer display component------------
     this.customerArr.push({ Name: this.customerName, Email: this.customerEmail, Status: this.status, Address: this.customerAddress });
 
+    // ---------for reset value-------
     this.customerName = '';
-    this.customerAddress = '';
     this.customerEmail = '';
+    this.customerAddress = '';
   }
 
 
-  addItem(val) {
+  // ------for Edit Data---------
+
+  editName(val) {
     console.log(val);
-    this.customerName = val;
-
-
-    // this.customerEmail = '';
-    // this.customerAddress = '';
+    this.customerName = val.Name;
+    this.customerEmail = val.Email;
+    this.customerAddress = val.Address;
+    this.status = val.Status;
   }
-
-
-
-
-
-
 
 }
