@@ -1,4 +1,5 @@
 import { Component, OnInit, } from '@angular/core';
+import { CustomerDataService } from '../customer-data.service';
 
 
 
@@ -14,21 +15,24 @@ export class CustmerInputDataComponent implements OnInit {
   customerEmail: string = '';
   customerAddress: string = '';
   status: string = 'Active';
-  statusArr: [{ id: number, name: string }, { id: number, name: string }];
+  statusArr: [{ id: number, name: string }, { id: number, name: string }] = [
+    { id: 1, name: "Active" },
+    { id: 2, name: "Inactive" }
+  ];
 
   // -----display validation error---------
   nameError: string = 'Enter Name';
   emailError: string = 'Enter valid Email';
 
-
   validName: boolean = false;
-  validEmail: boolean = false;
+  validEmail: boolean = true;
   validAddress: boolean = false;
   valid: string;
 
 
   // -------store customer data---------
   customerArr = [];
+  getEditArr = [];
 
 
   // ------------take address value from another component----
@@ -37,16 +41,30 @@ export class CustmerInputDataComponent implements OnInit {
   }
 
 
-  constructor() { }
+  constructor(private customerdata: CustomerDataService) { }
 
   ngOnInit(): void {
-
-    // -------status dropdown----------
-    this.statusArr = [
-      { id: 1, name: "Active" },
-      { id: 2, name: "Inactive" }
-    ]
+    // console.log(this.getEditArr);
+    // console.log(this.getEditArr)
+    // this.getEditArr = this.customerdata.getEdit();
+    // this.customerName = this.getEditArr.Data
+    // console.log();
   }
+
+  // ----------check email validation-----------
+  ckeckEmail() {
+    this.valid = "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$";
+    if (this.customerEmail.match(this.valid)) {
+      this.validEmail = true;
+
+    }
+    else {
+      this.validEmail = false;
+
+    }
+  }
+
+
 
   // ------------submit customer data---------
   onSubmit() {
@@ -56,23 +74,20 @@ export class CustmerInputDataComponent implements OnInit {
       this.validName = true;
     }
 
-    this.valid = "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$";
-    if (this.customerEmail.match(this.valid)) {
-      this.validEmail = false;
-    }
-    else {
-      this.validEmail = true;
-    }
+    // ----------check email validation-----------
 
-    // -----------pass customer data to customer display component------------
-    this.customerArr.push({ Name: this.customerName, Email: this.customerEmail, Status: this.status, Address: this.customerAddress });
+    if (this.customerEmail.match(this.valid)) {
+
+      // -----------pass customer data to customer display component------------
+      // this.customerArr.push({ Name: this.customerName, Email: this.customerEmail, Status: this.status, Address: this.customerAddress });
+      this.customerdata.addToService({ Name: this.customerName, Email: this.customerEmail, Status: this.status, Address: this.customerAddress });
+    }
 
     // ---------for reset value-------
     this.customerName = '';
     this.customerEmail = '';
     this.customerAddress = '';
   }
-
 
   // ------for Edit Data---------
 

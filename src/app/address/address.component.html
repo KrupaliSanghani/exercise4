@@ -1,6 +1,10 @@
 <!-- ---------Address input---------- -->
 
-<label for="add">Address:</label>
-<textarea type="text" cols="40" rows="5" #added class="mb-3 ms-4" (keyup)="getAddress(added.value)"
-    [value]="nullAddress" [placeholder]="customerAddress">
-    </textarea><br>
+<div class="col-12">
+    <label for="add">Address:</label>
+</div>
+<div class="col-12">
+    <textarea type="text" cols="70" rows="3" #added (keyup)="getAddress(added.value)" [value]="nullAddress"
+        [placeholder]="customerAddress">
+            </textarea><br>
+</div>

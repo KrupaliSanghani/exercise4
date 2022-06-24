@@ -24,12 +24,11 @@ export class AddressComponent implements OnInit {
 
   }
 
-
   // --------pass address value--------
 
   getAddress(AddressVal: string) {
     this.add.emit(AddressVal);
-    console.log(this.customerAddress);
+    // console.log(this.customerAddress);
   }
 
 

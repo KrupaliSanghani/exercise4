@@ -1,47 +1,72 @@
 <div class="container-fluid">
     <div class="row">
 
+        <h3 class="mt-3 taskHead">Task 1</h3>
         <!-- -------customer form ------ -->
 
-        <div class="mb-5 mt-5">
-            <h3 class="mb-4">Customer Form:</h3>
+        <!-- <div class="mb-5 mt-3 "> -->
+        <h3 class=" heading">Customer Form</h3>
+        <div class="col-12 mt-4">
+
+
+            <!-- <div *ngFor="let data of getEditArr">
+                <p>{{getEditArr}}</p>
+            </div> -->
+
+
 
             <!-- ------------customer Name------------ -->
-            <label for="name">Name:</label>
-            <input id="name" type="text" [(ngModel)]="customerName" class="ms-5 mb-3" placeholder="Enter Name"><br>
+            <label for="name">Name:</label><br>
+            <input id="name" type="text" [(ngModel)]="customerName" class=" mb-3" placeholder="Enter Name"><br>
             <p *ngIf="validName" class="text-danger">{{nameError}}</p>
+        </div>
 
-            <!-- ------------customer Email------------ -->
-            <label for="email">Email:</label>
-            <input id="email" type="text" [(ngModel)]="customerEmail" class="ms-5 mb-3" placeholder="Enter Email">
-            <p *ngIf="validEmail" class="text-danger">{{emailError}}</p><br>
+        <!-- ------------customer Email------------ -->
+        <div class="col-12">
+            <label for="email">Email:</label><br>
+            <input id="email" type="text" (change)="ckeckEmail();" [(ngModel)]="customerEmail" class="mb-3"
+                placeholder="Enter Email">
+            <p *appUnless="validEmail" class="text-danger">{{emailError}}</p><br>
+        </div>
 
 
-            <!-- ------------customer Address------------ -->
+        <!-- [(ngModel)]="customerEmail" class="mb-3" placeholder="Enter Email" -->
+
+
+
+        <!-- ------------customer Address------------ -->
+        <div class="col-12">
             <app-address [nullAddress]="customerAddress" (add)="getAddress($event)"></app-address>
+        </div>
 
+        <!-- ------------customer Status------------ -->
+        <div class="col-12 mt-2">
+            <label>Status:</label><br>
 
-            <!-- ------------customer Status------------ -->
-            Status: <select class="ms-4 mb-3" [(ngModel)]="status">
-                <option *ngFor="let cate of statusArr" [value]="cate.name">
-                    {{cate.name}}
+            <select class="mb-3" [(ngModel)]="status">
+                <option *ngFor="let status of statusArr" [value]="status.name">
+                    {{status.name}}
                 </option>
-            </select><br>
+            </select>
+        </div>
 
-
-            <!-- ------submit data----- -->
+        <!-- ------submit data----- -->
+        <div class="col-12 mb-5">
             <button type="button" class="btn btn-primary"
                 [disabled]="customerName === '' || customerEmail === '' || customerAddress === ''"
                 (click)=" onSubmit()">Submit</button>
-
         </div>
+
         <hr>
 
 
         <!-- ------------ customer display component-------- -->
-        <app-customer-display-data [displayArr]="customerArr" [validEmail]="validEmail"
-            (newItemEvent)="editName($event)">
-            <h3 class="text-primary">Customer List:</h3>
+        <!-- <app-customer-display-data [displayArr]="customerArr" (editData)="editName($event)"> -->
+        <!-- <h3 class="heading">Customer List</h3> -->
+        <!-- </app-customer-display-data> -->
+
+        <app-customer-display-data (editData)="editName($event)">
+            <h3 class="heading">Customer List</h3>
         </app-customer-display-data>
 
     </div>

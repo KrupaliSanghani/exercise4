@@ -1,85 +1,83 @@
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12 mt-5">
+<div class="col-12">
 
-            <!-- ---------customer list title-------- -->
-            <ng-content></ng-content>
+    <!-- ---------customer list title-------- -->
+    <ng-content></ng-content>
 
-            <!-- --------------status filter button-- -->
-            <button (click)="onActive()" class="btn btn-success mt-3 mb-3">Active</button>
-            <button (click)="onInactive()" class="btn btn-danger ms-3 mt-3 mb-3">Inactive</button>
+    <!-- --------------status filter button-- -->
 
+    <!-- ----------customer display table-------- -->
+    <table class="table">
 
-            <!-- ----------customer display table-------- -->
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col" style="cursor: pointer;" (click)="sortName('Name')">Name</th>
-                        <th scope="col" style="cursor: pointer;" (click)="sortName('Email')">Email</th>
-                        <th scope="col" style="cursor: pointer;" (click)="sortAddress('Address')">Address</th>
-                        <th scope="col">Status</th>
-                    </tr>
-                </thead>
-                <tbody>
+        <!-- ----------table header------- -->
+        <thead>
+            <tr>
+                <th scope="col" style="cursor: pointer;" (click)="sortName('Name')">Name</th>
+                <th scope="col" style="cursor: pointer;" (click)="sortName('Email')">Email</th>
+                <th scope="col" style="cursor: pointer;" (click)="sortName('Address')">Address</th>
+                <th scope="col">Status</th>
+            </tr>
+        </thead>
 
+        <tbody>
 
-                    <ng-container *ngIf="status">
+            <!-- ------display when table is emplty-- -->
+            <div *ngIf="displayArr.length == 0">
+                No Customer Found
+            </div>
 
-                        <!-- <ng-container *ngIf="!validEmail"> -->
-
-
-                        <tr *ngFor="let data of displayArr">
-
-                            <td>{{data.Name}}</td>
-                            <td>{{data.Email}}</td>
-                            <td>{{data.Address}}</td>
-
-                            <td><span class="badge" [ngClass]="{
+            <ng-container *ngIf="status">
+                <tr *ngFor="let data of displayArr">
+                    <td>{{data.Name}}</td>
+                    <td>{{data.Email}}</td>
+                    <td>{{data.Address}}</td>
+                    <td><span class="badge" [ngClass]="{
                             'active' : data.Status == 'Active' ,
                             'inactive' : data.Status == 'Inactive' 
                          }">{{data.Status}}</span></td>
-                            <td><button class="btn btn-outline-danger" (click)="onEdit(data)">Edit</button></td>
-                        </tr>
-                    </ng-container>
-                    <!-- </ng-container> -->
+                    <td><button class="btn btn-outline-danger" (click)="onEdit(data)">Edit</button></td>
+                </tr>
+            </ng-container>
 
-                    <!-- -------------filter by status--------- -->
+            <!-- -------------filter by status--------- -->
 
-                    <ng-container *ngIf="isActive">
-                        <tr *ngFor="let data of displayActiveArr">
 
-                            <td>{{data.Name}}</td>
-                            <td>{{data.Email}}</td>
-                            <td>{{data.Address}}</td>
-
-                            <td><span class="badge" [ngClass]="{
+            <!-- ----------for active status------- -->
+            <ng-container *ngIf="isActive">
+                <tr *ngFor="let data of displayStatusArr">
+                    <td>{{data.Name}}</td>
+                    <td>{{data.Email}}</td>
+                    <td>{{data.Address}}</td>
+                    <td><span class="badge" [ngClass]="{
                             'active' : data.Status == 'Active' ,
                             'inactive' : data.Status == 'Inactive' 
                          }">{{data.Status}}</span></td>
+                    <td><button class="btn btn-outline-danger" (click)="onEdit(data)">Edit</button></td>
+                </tr>
+            </ng-container>
 
-                        </tr>
-                    </ng-container>
-
-                    <ng-container *ngIf="isInactive">
-                        <tr *ngFor="let data of displayStatusArr">
-
-                            <td>{{data.Name}}</td>
-                            <td>{{data.Email}}</td>
-                            <td>{{data.Address}}</td>
-
-                            <td><span class="badge" [ngClass]="{
+            <!-- ----------for inactive status------- -->
+            <ng-container *ngIf="isInactive">
+                <tr *ngFor="let data of displayStatusArr">
+                    <td>{{data.Name}}</td>
+                    <td>{{data.Email}}</td>
+                    <td>{{data.Address}}</td>
+                    <td><span class="badge" [ngClass]="{
                             'active' : data.Status == 'Active' ,
                             'inactive' : data.Status == 'Inactive' 
                          }">{{data.Status}}</span></td>
+                    <td><button class="btn btn-outline-danger" (click)="onEdit(data)">Edit</button></td>
+                </tr>
+            </ng-container>
 
-                        </tr>
-                    </ng-container>
+        </tbody>
+    </table>
 
-
-
-                </tbody>
-            </table>
-
-        </div>
+    <!-- -----------active, inactive, all button------- -->
+    <div *ngIf="displayArr.length !== 0">
+        <button (click)="onActive()" class="btn btn-success mt-3 mb-3">Active</button>
+        <button (click)="onInactive()" class="btn btn-danger ms-3 mt-3 mb-3">Inactive</button>
+        <button (click)="onAll()" class="btn btn-primary ms-3 mt-3 mb-3">All</button>
     </div>
+
+
 </div>

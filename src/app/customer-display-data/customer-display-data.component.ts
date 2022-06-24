@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { CustomerDataService } from '../customer-data.service';
 
 
 @Component({
@@ -7,21 +8,29 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./customer-display-data.component.css']
 })
 export class CustomerDisplayDataComponent implements OnInit {
-  @Input() displayArr = [];
-  @Input() validEmail: boolean;
+  // @Input() displayArr = [];
   @Output() editData = new EventEmitter();
-  displayActiveArr = [];
+  displayArr = [];
+  // editData;
+
+
   displayStatusArr = [];
   status = true;
   isDesc = false;
+
+
+
 
   // -----------for filter active and inactive------------
   isActive: boolean = false;
   isInactive: boolean = false;
 
-  constructor() { }
+  constructor(private customerdata: CustomerDataService) { }
 
   ngOnInit(): void {
+
+    this.displayArr = this.customerdata.getData();
+    console.log(this.displayArr);
 
   }
 
@@ -31,8 +40,8 @@ export class CustomerDisplayDataComponent implements OnInit {
     this.isActive = true;
     this.isInactive = false;
     console.log(this.displayArr);
-    this.displayActiveArr = this.displayArr.filter(displayArr => displayArr.Status == 'Active');
-    console.log(this.displayActiveArr);
+    this.displayStatusArr = this.displayArr.filter(displayArr => displayArr.Status == 'Active');
+
 
   }
 
@@ -43,19 +52,27 @@ export class CustomerDisplayDataComponent implements OnInit {
     this.isInactive = true;
     console.log(this.displayArr);
     this.displayStatusArr = this.displayArr.filter(displayArr => displayArr.Status == 'Inactive');
-    console.log(this.displayStatusArr);
+
+  }
+
+  // ----------display all status-------
+  onAll() {
+    this.isActive = false;
+    this.isInactive = false;
+    this.status = true;
+    console.log(this.displayArr);
   }
 
   // ------for Edit Data---------
-
-  onEdit(value) {
+  onEdit(data: any) {
     console.log(this.editData);
-    this.editData.emit(value);
+    // this.customerdata.editval(data);
+    this.editData.emit(data);
   }
 
-  // ---------------sort by Name----------
+  // ---------------sorting----------
 
-  sortName(property: string | number) {
+  sortName(property: string) {
     this.isDesc = !this.isDesc;
 
     let direction = this.isDesc ? 1 : -1;
@@ -72,43 +89,6 @@ export class CustomerDisplayDataComponent implements OnInit {
     });
   }
 
-  // ---------------sort by EmaiL----------
-
-  sortEmail(property: string | number) {
-    this.isDesc = !this.isDesc;
-
-    let direction = this.isDesc ? 1 : -1;
-    this.displayArr.sort(function (a, b) {
-      if (a[property] < b[property]) {
-        return -1 * direction;
-      }
-      else if (a[property] > b[property]) {
-        return 1 * direction;
-      }
-      else {
-        return 0;
-      }
-    });
-  }
-
-  // ---------------sort by Address----------
-
-  sortAddress(property: string | number) {
-    this.isDesc = !this.isDesc;
-
-    let direction = this.isDesc ? 1 : -1;
-    this.displayArr.sort(function (a, b) {
-      if (a[property] < b[property]) {
-        return -1 * direction;
-      }
-      else if (a[property] > b[property]) {
-        return 1 * direction;
-      }
-      else {
-        return 0;
-      }
-    });
-  }
 
 
 

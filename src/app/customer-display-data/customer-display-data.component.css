@@ -1,7 +1,9 @@
+/* ---for active status------ */
 .active {
     background-color: green;
 }
 
+/* ---for inactive status------ */
 .inactive {
     background-color: red;
 }
